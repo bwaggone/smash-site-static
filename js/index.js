@@ -55,9 +55,9 @@ myApp.controller('myCtrl', function($scope, $http) {
 	$scope.readCSV = function() {
 		// http get request to read CSV file content
 		console.log("Reading csv")
-		$http.get('./csv/sample.csv').success($scope.processData);
-		$http.get('./csv/sample2.csv').success($scope.processData2);
-		$http.get('./csv/sample3.csv').success($scope.processData3);
+		$http.get('./smash-site-static/csv/sample.csv').success($scope.processData);
+		$http.get('./smash-site-static/csv/sample2.csv').success($scope.processData2);
+		$http.get('./smash-site-static/csv/sample3.csv').success($scope.processData3);
 		//$http.get('/csv/sample.csv').success($scope.processData);
 	};
 
