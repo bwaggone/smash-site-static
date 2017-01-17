@@ -55,7 +55,9 @@ myApp.controller('myCtrl', function($scope, $http) {
 	$scope.readCSV = function() {
 		// http get request to read CSV file content
 		console.log("Reading csv")
-			$http.get('/csv/sample.csv').success($scope.processData);
+		$http.get('/csv/sample.csv').success($scope.processData);
+		$http.get('/csv/sample2.csv').success($scope.processData2);
+		$http.get('/csv/sample3.csv').success($scope.processData3);
 		//$http.get('/csv/sample.csv').success($scope.processData);
 	};
 
@@ -81,6 +83,41 @@ myApp.controller('myCtrl', function($scope, $http) {
 		}
 		$scope.data = lines;
 	};
+
+	$scope.processData2 = function(allText) {
+		// split content based on new line
+		console.log(allText);
+		var allTextLines = allText.split(/\r\n|\n/);
+		var headers = allTextLines[0].split(',');
+		var lines = [];
+
+		for (var i = 1; i < allTextLines.length; i++) {
+			// split content based on comma
+			var data = allTextLines[i].split(',');
+			if (data.length == headers.length) {
+				lines.push(data[0]);
+			}
+		}
+		$scope.data2 = lines;
+	};
+
+	$scope.processData3 = function(allText) {
+		// split content based on new line
+		console.log(allText);
+		var allTextLines = allText.split(/\r\n|\n/);
+		var headers = allTextLines[0].split(',');
+		var lines = [];
+
+		for (var i = 1; i < allTextLines.length; i++) {
+			// split content based on comma
+			var data = allTextLines[i].split(',');
+			if (data.length == headers.length) {
+				lines.push(data[0]);
+			}
+		}
+		$scope.data3 = lines;
+	};
+
 	$scope.readCSV();
 });
 

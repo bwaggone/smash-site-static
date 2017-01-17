@@ -65,8 +65,14 @@
 			<form>
 			<select class="search-bar" ng-model="searchTerm" style="width: 50%" id=dynamic_select>
 				<option></option>
-					<optgroup label="Tournaments">
-						<option ng-repeat="x in data" value="tournament?={{ x }}">{{ x }}</option>
+				<optgroup label="Tournaments">
+					<option ng-repeat="x in data" value="tournament?={{ x }}">{{ x }}</option>
+				</optgroup>
+				<optgroup label="Games">
+					<option ng-repeat="y in data2" value="game?={{ y }}">{{ y }}</option>
+				</optgroup>
+				<optgroup label="Players">
+					<option ng-repeat="z in data3" value="player?={{ z }}">{{ z }}</option>
 				</optgroup>
 			</select>
 			</form>
