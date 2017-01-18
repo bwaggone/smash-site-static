@@ -9,24 +9,37 @@ $(document).ready(function(){
 	//    .html(function(index, old) { return old.replace('jigglypuff', '<img src="./images/neutral Jigglypuff.png" />');
 });
 
-var myApp = angular.module('myApp', [])
+var myApp = angular.module('myApp', ['ngRoute', 'ui.router'])
 .filter('split', function() {
 	return function(input, delimiter) {
 		var delimiter = delimiter || ';';
 
 		return input.split(delimiter);
-		//.filter('split', function() {
-		//	return function(input, splitChar, splitIndex) {
-		// do some bounds checking here to ensure it has that index
-		//		return input.split(splitChar)[splitIndex];
 	}
-	;});
+	;})
+.config(function ($stateProvider, $routeProvider, $locationProvider) {
+	$routeProvider.when('/:type', {
+		controller: "myCtrl"
+	});
+	$locationProvider.html5Mode(true);
 
-myApp.controller('myCtrl', function($scope, $http) {
+	var defaultState = {
+		name: 'games',
+		url: '/game'
+	}
+	$stateProvider.state(defaultState);
+
+});
+
+;
+
+myApp.controller('myCtrl', function($scope, $route, $routeParams, $http, $location) {
+	$scope.game = ($location.search()).type;
 	$scope.readCSV = function() {
 		// http get request to read CSV file content
 		console.log("Reading csv")
-			$http.get('./csv/sample3.csv').success($scope.readPlayers);
+		console.log($scope.game);
+		$http.get('./csv/'+ $scope.game +'-rankings.csv').success($scope.readPlayers);
 	};
 
 	$scope.readPlayers = function(allText) {
