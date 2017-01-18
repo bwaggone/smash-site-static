@@ -26,7 +26,7 @@ myApp.controller('myCtrl', function($scope, $http) {
 	$scope.readCSV = function() {
 		// http get request to read CSV file content
 		console.log("Reading csv")
-			$http.get('./smash-site-static/csv/sample3.csv').success($scope.readPlayers);
+			$http.get('./csv/sample3.csv').success($scope.readPlayers);
 	};
 
 	$scope.readPlayers = function(allText) {
