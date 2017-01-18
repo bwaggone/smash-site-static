@@ -68,9 +68,6 @@ myApp.controller('myCtrl', function($scope, $route, $routeParams, $http, $locati
 	$scope.replaceText = function(text) {
 		$scope.text = text;
 
-		if($scope.text == "cf")
-			$scope.text = "captainfalcon";
-
 		return($scope.text);
 	};
 
