@@ -24,7 +24,7 @@ myApp.controller('testCtrl', function($scope) {
 	$scope.test1 = "hola";
 	$scope.test2 = "konichiwa";
 });
-
+/*
 myApp.controller("searchTest",['$scope', '$q', '$http', function($scope,$q,$http) {
 	var _this = this;
 
@@ -50,18 +50,18 @@ myApp.controller("searchTest",['$scope', '$q', '$http', function($scope,$q,$http
 	$scope.findValue("Armada")
 }]);
 
-
+*/
 myApp.controller('myCtrl', function($scope, $http) {
 	$scope.readCSV = function() {
 		// http get request to read CSV file content
 		console.log("Reading csv")
-		$http.get('./smash-site-static/csv/sample.csv').success($scope.processData);
-		$http.get('./smash-site-static/csv/sample2.csv').success($scope.processData2);
-		$http.get('./smash-site-static/csv/sample3.csv').success($scope.processData3);
+		$http.get('./csv/sample.csv').success($scope.readTourneys);
+		$http.get('./csv/sample2.csv').success($scope.readGames);
+		$http.get('./csv/sample3.csv').success($scope.readPlayers);
 		//$http.get('/csv/sample.csv').success($scope.processData);
 	};
 
-	$scope.processData = function(allText) {
+	$scope.readTourneys = function(allText) {
 		// split content based on new line
 		console.log(allText);
 		var allTextLines = allText.split(/\r\n|\n/);
@@ -81,10 +81,10 @@ myApp.controller('myCtrl', function($scope, $http) {
 				lines.push(data[0]);
 			}
 		}
-		$scope.data = lines;
+		$scope.tourneys = lines;
 	};
 
-	$scope.processData2 = function(allText) {
+	$scope.readGames = function(allText) {
 		// split content based on new line
 		console.log(allText);
 		var allTextLines = allText.split(/\r\n|\n/);
@@ -98,10 +98,10 @@ myApp.controller('myCtrl', function($scope, $http) {
 				lines.push(data[0]);
 			}
 		}
-		$scope.data2 = lines;
+		$scope.games = lines;
 	};
 
-	$scope.processData3 = function(allText) {
+	$scope.readPlayers = function(allText) {
 		// split content based on new line
 		console.log(allText);
 		var allTextLines = allText.split(/\r\n|\n/);
@@ -115,7 +115,7 @@ myApp.controller('myCtrl', function($scope, $http) {
 				lines.push(data[0]);
 			}
 		}
-		$scope.data3 = lines;
+		$scope.players = lines;
 	};
 
 	$scope.readCSV();
