@@ -12,7 +12,7 @@
 	<link href="https://fonts.googleapis.com/css?family=Lato:400,700,400italic,700italic" rel="stylesheet" type="text/css">
 
 
-
+	<link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.min.css">
 
 	<!-- Angular -->
 	<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.5.3/angular.js"></script>
@@ -59,52 +59,122 @@
 		</nav>
 	</div>
 	<div ng-app="myApp" ng-controller="myCtrl" id="divID" class="center">
+
+		<div class="row">
+			<div class="col l10 offset-l1">
+				<ul class="tabs">
+					<li class="tab col l2" ng-class="{ active: isSet(1) }">
+					<a href ng-click="setTab(1)">Overview</a>
+					</li>
+					<li class="tab col l2" ng-class="{ active: isSet(2) }">
+					<a href ng-click="setTab(2)">Official Rankings</a>
+					</li>
+					<li class = "tab col l2" ng-class="{ active: isSet(3) }">
+					<a href ng-click="setTab(3)">Tournaments</a>
+					</li>
+				</ul>
+			</div>
+		</div>
+		<!--
+		<div ng-show="isSet(1)">
+			<p>test1</p>
+		</div>
+		<div ng-show="isSet(2)">
+			<p>test2</p>
+		</div>
+		-->
+
 		<input type="text" ng-model="searchTerm" placeholder="Enter a tag here" class="center">
 		<div class="row">
-		<div class="col s12 m12 l6 offset-l3">
-		<table class="striped bordered centered">
+		<div class="col s12 m12 l6 offset-l3" ng-show="isSet(2)">
+		<table class="striped bordered centered responsive-table">
 			<tr>
 				<thead>
-				<th>Tag</th>
-				<th>2016 Rank</th>
-				<th>Characters</th>
-				<th>Score</th>
-				<th>Change</th>
+					<th><a href="#" ng-click="playersortType = 'tag'; playersortReverse=!playersortReverse;">Tag
+				    <span ng-show="playersortType == 'tag' && !playersortReverse" class="fa fa-caret-down"></span>
+				    <span ng-show="playersortType == 'tag' && playersortReverse" class="fa fa-caret-up"></span>
+					</a></th>
+					<th><a href="#" ng-click="playersortType = 'rank'; playersortReverse=!playersortReverse;">Rank
+				    <span ng-show="playersortType == 'rank' && !playersortReverse" class="fa fa-caret-down"></span>
+				    <span ng-show="playersortType == 'rank' && playersortReverse" class="fa fa-caret-up"></span>
+					</a></th>
+					<th><a href="#" ng-click="playersortType = 'characters'; playersortReverse=!playersortReverse;">Characters
+				    <span ng-show="playersortType == 'characters' && !playersortReverse" class="fa fa-caret-down"></span>
+				    <span ng-show="playersortType == 'characters' && playersortReverse" class="fa fa-caret-up"></span>
+					</a></th>
+					<th><a href="#" ng-click="playersortType = 'score'; playersortReverse=!playersortReverse;">Score
+				    <span ng-show="playersortType == 'score' && !playersortReverse" class="fa fa-caret-down"></span>
+				    <span ng-show="playersortType == 'score' && playersortReverse" class="fa fa-caret-up"></span>
+					</a></th>
+					<th><a href="#" ng-click="playersortType = 'change'; playersortReverse=!playersortReverse;">Change
+				    <span ng-show="playersortType == 'change' && !playersortReverse" class="fa fa-caret-down"></span>
+				    <span ng-show="playersortType == 'change' && playersortReverse" class="fa fa-caret-up"></span>
+					</a></th>
 				</thead>
 				<tbody>
-			<tr ng-repeat="x in players | filter: searchTerm as results">
+			<tr ng-repeat="x in players | filter:searchTerm | orderBy:playersortType:playersortReverse">
 				<td>
-					<p> {{ x[0] }} </p>
-				</td>
-				<td>
-					<p> {{ x[1] }} </p>
+					<p> {{ x.tag }} </p>
 				</td>
 				<td>
-					<img ng-repeat="item in x[2] | split" ng-src= "./smash-site-static//images/{{ game }}-stocks/{{ replaceText(item) }}.png" />
+					<p> {{ x.rank }} </p>
 				</td>
 				<td>
-					<p> {{ x[3] }} </p>
+					<img class = "stocks" ng-repeat="item in x.characters | split" ng-src= "./images/{{ game }}-stocks/{{ replaceText(item) }}.png" />
 				</td>
 				<td>
-					<p> {{ x[4] }} </p>
+					<p> {{ x.score }} </p>
 				</td>
-				<!--
-				<td ng-repeat = "y in x" ng-switch="y">
-					<p ng-switch-when="jigglypuff"><img src="./images/melee-stocks/jiggs.png" /></p>
-					<p ng-switch-when="fox"><img src="./images/melee-stocks/fox.png" /></p>
-					<p ng-switch-when="ic"><img src="./images/melee-stocks/ic.png" /></p>
-					<p ng-switch-default>{{ replaceText(y) }}</p>
+				<td>
+					<p> {{ x.change }} </p>
 				</td>
-				-->
 			</tr>
 				</tbody>
 		</table>
-		<replace-icons></replace-icons>
 		</div>
 		</div>
-	</div>
-	<div>
-		<table>
+		<div class="row center" ng-show="isSet(3)">
+		<div class="col s12 m12 l6 offset-l3">
+			<table class="centered responsive-table">
+			<thead>
+				<tr>
+				<th><a href="#" ng-click="tourneysortType = 'slug'; tourneysortReverse=!tourneysortReverse;">Tournament
+			    <span ng-show="tourneysortType == 'name' && !tourneysortReverse" class="fa fa-caret-down"></span>
+			    <span ng-show="tourneysortType == 'name' && tourneysortReverse" class="fa fa-caret-up"></span>
+				</a></th>
+				<th><a href="#" ng-click="tourneysortType = 'entrants'; tourneysortReverse=!tourneysortReverse;">Entrants
+			    <span ng-show="tourneysortType == 'entrants' && !tourneysortReverse" class="fa fa-caret-down"></span>
+			    <span ng-show="tourneysortType == 'entrants' && tourneysortReverse" class="fa fa-caret-up"></span>
+				</a></th>
+				<th><a href="#" ng-click="tourneysortType = 'start'; tourneysortReverse=!tourneysortReverse;">Start Date
+			    <span ng-show="tourneysortType == 'start' && !tourneysortReverse" class="fa fa-caret-down"></span>
+			    <span ng-show="tourneysortType == 'start' && tourneysortReverse" class="fa fa-caret-up"></span>
+				</a></th>
+				<th><a href="#" ng-click="tourneysortType = 'end'; tourneysortReverse=!tourneysortReverse;">End Date
+			    <span ng-show="tourneysortType == 'end' && !tourneysortReverse" class="fa fa-caret-down"></span>
+			    <span ng-show="tourneysortType == 'end' && tourneysortReverse" class="fa fa-caret-up"></span>
+				</a></th>
+				</tr>
+			</thead>
+				<tbody>
+			<tr ng-repeat="x in tourneys | filter:searchTerm | orderBy:tourneysortType:tourneysortReverse">
+				<td>
+					<a ng-href="http://smash.gg/{{ x.slug }}"> {{ x.name }} </a>
+				</td>
+				<td>
+					<p> {{ x.entrants }} </p>
+				</td>
+				<td>
+					<p> {{ x.start }} </p>
+				</td>
+				<td>
+					<p> {{ x.end }} </p>
+				</td>
+			</tr>
+				</tbody>
 		</table>
+
+		</div>
+		</div>
 	</div>
 </body>

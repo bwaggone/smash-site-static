@@ -69,7 +69,7 @@
 					<option ng-repeat="x in tourneys" value="tournament?name={{ x }}">{{ x }}</option>
 				</optgroup>
 				<optgroup label="Games">
-					<option ng-repeat="y in games" value="game?type={{ y }}">{{ y }}</option>
+					<option ng-repeat="y in games" value="game?type={{ removeWhiteSpace(y) }}">{{ y }}</option>
 				</optgroup>
 				<optgroup label="Players">
 					<option ng-repeat="z in players" value="player?tag={{ z }}">{{ z }}</option>

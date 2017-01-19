@@ -23,23 +23,18 @@ var myApp = angular.module('myApp', ['ngRoute', 'ui.router'])
 	});
 	$locationProvider.html5Mode(true);
 
-	var defaultState = {
-		name: 'games',
-		url: '/game'
-	}
-	$stateProvider.state(defaultState);
-
 });
 
 ;
 
 myApp.controller('myCtrl', function($scope, $route, $routeParams, $http, $location) {
 	$scope.game = ($location.search()).type;
+
 	$scope.readCSV = function() {
 		// http get request to read CSV file content
-		console.log("Reading csv")
-		console.log($scope.game);
-		$http.get('./smash-site-static/csv/'+ $scope.game +'-rankings.csv').success($scope.readPlayers);
+		console.log("Reading csv");
+		$http.get('./csv/'+ $scope.game +'-rankings.csv').success($scope.readPlayers);
+		$http.get('./data/'+ $scope.game +'/Singles/tournaments.csv').success($scope.readTournaments);
 	};
 
 	$scope.readPlayers = function(allText) {
@@ -53,16 +48,46 @@ myApp.controller('myCtrl', function($scope, $route, $routeParams, $http, $locati
 			// split content based on comma
 			var data = allTextLines[i].split(',');
 			if (data.length == headers.length) {
-				var tarr = [];
+				var tarr = {
+					tag: data[0],
+					rank: parseInt(data[1]),
+					characters: data[2],
+					score: parseFloat(data[3]),
+					change: parseInt(data[4])
+
+				};
 				//tarr.push(data[0])
-				for ( var j = 0; j < headers.length; j++) {
-					tarr.push(data[j]);
-				}
+				//for ( var j = 0; j < headers.length; j++) {
+				//	tarr.push(data[j]);
+				//}
 				lines.push(tarr);
 				//lines.push(data[0]);
 			}
 		}
 		$scope.players = lines;
+	};
+
+	$scope.readTournaments = function(allText) {
+		var allTextLines = allText.split(/\r\n|\n/);
+		var headers = allTextLines[0].split(',');
+		var lines = [];
+		for (var i = 1; i < allTextLines.length; i++) {
+			// split content based on comma
+			var data = allTextLines[i].split(',');
+			if (data.length == headers.length) {
+				var tarr = {
+					name: data[0],
+					slug: data[1],
+					start: data[2],
+					end: data[3],
+					entrants: parseFloat(data[4]),
+				};
+				lines.push(tarr);
+			}
+		}
+
+		$scope.tourneys = lines;
+
 	};
 
 	$scope.replaceText = function(text) {
@@ -71,12 +96,23 @@ myApp.controller('myCtrl', function($scope, $route, $routeParams, $http, $locati
 		return($scope.text);
 	};
 
-	$scope.mySplit = function(string) {
-		console.log("test");
-		var array = string.split(';');
-		return array;
+
+	$scope.tab = 1;
+	$scope.setTab = function(newTab){
+		$scope.tab = newTab;
+		console.log($scope.tab);
 	};
 
+	$scope.isSet = function(tabNum){
+		return $scope.tab === tabNum;
+	};
+
+
+	$scope.playersortType  = 'rank'; // set the default sort type
+	$scope.playersortReverse = false;  // set the default sort order
+
+	$scope.tourneysortType  = 'end'; // set the default sort type
+	$scope.tourneysortReverse = true;  // set the default sort order
 	$scope.readCSV();
 })
 

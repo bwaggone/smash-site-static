@@ -118,6 +118,13 @@ myApp.controller('myCtrl', function($scope, $http) {
 		$scope.players = lines;
 	};
 
+	$scope.removeWhiteSpace = function(txt) {
+		if(txt == "Smash 4")
+			return "Smash4"
+		return String(txt).replace(/^\s+|\s+$/g, '');
+	};
+
+
 	$scope.readCSV();
 });
 

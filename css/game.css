@@ -4,14 +4,22 @@
 }*/
 table {
 	border-collapse: collapse;
+	display: fixed;
+}
+.table-responsive thead {
+	display: table-header-group;
 }
 
-.chars {
-	width=20px;
+.stocks {
+	max-width: 32px;
+	max-height: 32px;
 }
 
-.class1 {
-	background-image: url("../images/melee-stocks/jiggs.png");
+/* button recolor */
+.nav-pills > li.active > a, .btn-primary {
+	background-color: #6C6C6C !important;
+	border-color: #6C6C6C !important;
+	border-radius: 25px; 
 }
 
 input[type=text] {
