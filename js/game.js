@@ -1,4 +1,24 @@
 'use strict';   // See note about 'use strict'; below
+function shuffle(array) {
+	var currentIndex = array.length, temporaryValue, randomIndex;
+
+	// While there remain elements to shuffle...
+	while (0 !== currentIndex) {
+		//
+		//       // Pick a remaining element...
+		randomIndex = Math.floor(Math.random() * currentIndex);
+		currentIndex -= 1;
+		//
+		//                   // And swap it with the current element.
+		temporaryValue = array[currentIndex];
+		array[currentIndex] = array[randomIndex];
+		array[randomIndex] = temporaryValue;
+	}
+
+	return array;
+}
+
+
 $(document).ready(function(){
 	$('.parallax').parallax();
 	$('.button-collapse').sideNav();
@@ -33,8 +53,9 @@ myApp.controller('myCtrl', function($scope, $route, $routeParams, $http, $locati
 	$scope.readCSV = function() {
 		// http get request to read CSV file content
 		console.log("Reading csv");
-		$http.get('./smash-site-static/csv/'+ $scope.game +'-rankings.csv').success($scope.readPlayers);
-		$http.get('./smash-site-static/data/'+ $scope.game +'/Singles/tournaments.csv').success($scope.readTournaments);
+		$http.get('./csv/'+ $scope.game +'-rankings.csv').success($scope.readPlayers);
+		$http.get('./data/'+ $scope.game +'/Singles/tournaments.csv').success($scope.readTournaments);
+		$http.get('./data/'+ $scope.game +'/Singles/upsets.csv').success($scope.readUpsets);
 	};
 
 	$scope.readPlayers = function(allText) {
@@ -53,7 +74,7 @@ myApp.controller('myCtrl', function($scope, $route, $routeParams, $http, $locati
 					rank: parseInt(data[1]),
 					characters: data[2],
 					score: parseFloat(data[3]),
-					change: parseInt(data[4])
+					change: isNaN(parseInt(data[4])) ? "NEW" : parseInt(data[4])
 
 				};
 				//tarr.push(data[0])
@@ -64,6 +85,7 @@ myApp.controller('myCtrl', function($scope, $route, $routeParams, $http, $locati
 				//lines.push(data[0]);
 			}
 		}
+		$scope.playerLabels = allTextLines[0].split(',');
 		$scope.players = lines;
 	};
 
@@ -90,6 +112,28 @@ myApp.controller('myCtrl', function($scope, $route, $routeParams, $http, $locati
 
 	};
 
+	$scope.readUpsets = function(allText) {
+		var allTextLines = allText.split(/\r\n|\n/);
+		var headers = allTextLines[0].split(',');
+		var lines = [];
+		for (var i = 1; i < allTextLines.length; i++) {
+			// split content based on comma
+			var data = allTextLines[i].split(',');
+			if (data.length == headers.length) {
+				var tarr = {
+					tourney: data[0],
+					slug: data[1],
+					p1: data[2],
+					p2: data[3],
+				};
+				lines.push(tarr);
+			}
+		}
+
+		$scope.upsets = shuffle(lines);
+
+	};
+
 	$scope.replaceText = function(text) {
 		$scope.text = text;
 
@@ -107,6 +151,11 @@ myApp.controller('myCtrl', function($scope, $route, $routeParams, $http, $locati
 		return $scope.tab === tabNum;
 	};
 
+	$scope.findGoodMatches = function(){
+
+		console.log("To Be Implemented...");
+	};
+
 
 	$scope.playersortType  = 'rank'; // set the default sort type
 	$scope.playersortReverse = false;  // set the default sort order
@@ -117,33 +166,3 @@ myApp.controller('myCtrl', function($scope, $route, $routeParams, $http, $locati
 })
 
 ;
-
-/*
-   myApp.controller('insertPic', function($scope, $http) {
-   $scope.replaceText = function(text) {
-   console.log("Hello");
-   if(text == "fox")
-   $scope.text = "this is a test";
-   else
-   $scope.text = text;
-
-   console.log($scope.text);
-   };
-   });
-
-   $(window).bind("load", function() {
-// code here
-$("*").filter(function() { return !$(this).children().length; })
-.html(function(index, old) { return old.replace('jigglypuff', '<img src="./images/neutral Jigglypuff.png" />');
-
-})});
-
-$( document ).ready(function() {
-// Handler for .ready() called.
-$("*").filter(function() { return !$(this).children().length; })
-.html(function(index, old) { return old.replace('jigglypuff', '<img src="./images/neutral Jigglypuff.png" />');
-
-})});
-*/
-//$("*").filter(function() { return !$(this).children().length; })
-//    .html(function(index, old) { return old.replace('jigglypuff', '<img src="./images/neutral Jigglypuff.png" />');

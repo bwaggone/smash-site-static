@@ -30,14 +30,20 @@
 </head>
 <body>
 	<base href="/"></base>
-	<div class="navbar-fixed">
+	<div class="navbar">
 		<nav class="red darken-4" role="navigation">
 			<div class="nav-wrapper container">
-				<a href="#" class="brand-logo"><img src="images/smash.png" style="vertical-align: middle; padding-bottom: 5px;" width="50px"></img></a>
+				<a href="#" class="brand-logo"><img src="images/smash.png" style="vertical-align: middle; padding-top: 5px;" width="50px"></img></a>
 				<ul class = "right hide-on-med-and-down">
 					<li><a href="/">Players</a></li>
 					<li><a href="/projects">Tournaments</a></li>
-					<li><a href="#">Games</a></li>
+					<li><a class='dropdown-button' hover="true" data-beloworigin="true" data-activates='game-dropdown'>Games</a></li>
+				</ul>
+
+				<ul id='game-dropdown' class='dropdown-content'>
+					<li><a class="droptext" href="/game?type=64">64</a></li>
+					<li><a class="droptext" href="/game?type=Melee">Melee</a></li>
+					<li><a class="droptext" href="/game?type=Smash4">Smash 4</a></li>
 				</ul>
 
 				<ul class="side-nav" id= "slide-out">
@@ -83,29 +89,151 @@
 		</div>
 		-->
 
+		<div ng-show="isSet(1)" class="animate-show-hide">
+		<div class="row">
+			<img class="header-img" ng-src="./images/{{game}}.png"/>
+		</div>
 		<input type="text" ng-model="searchTerm" placeholder="Enter a tag here" class="center">
 		<div class="row">
-		<div class="col s12 m12 l6 offset-l3" ng-show="isSet(2)">
-		<table class="striped bordered centered responsive-table">
+		<div class="col s12 m12 l4">
+			<h5>The Top 10</h5>
+		<table class="striped bordered centered">
 			<tr>
 				<thead>
-					<th><a href="#" ng-click="playersortType = 'tag'; playersortReverse=!playersortReverse;">Tag
+					<th><a href="#" ng-click="playersortType = 'tag'; playersortReverse=!playersortReverse;">{{ playerLabels[0] }}
 				    <span ng-show="playersortType == 'tag' && !playersortReverse" class="fa fa-caret-down"></span>
 				    <span ng-show="playersortType == 'tag' && playersortReverse" class="fa fa-caret-up"></span>
 					</a></th>
-					<th><a href="#" ng-click="playersortType = 'rank'; playersortReverse=!playersortReverse;">Rank
+					<th><a href="#" ng-click="playersortType = 'rank'; playersortReverse=!playersortReverse;">{{ playerLabels[1] }}
 				    <span ng-show="playersortType == 'rank' && !playersortReverse" class="fa fa-caret-down"></span>
 				    <span ng-show="playersortType == 'rank' && playersortReverse" class="fa fa-caret-up"></span>
 					</a></th>
-					<th><a href="#" ng-click="playersortType = 'characters'; playersortReverse=!playersortReverse;">Characters
+					<th><a href="#" ng-click="playersortType = 'characters'; playersortReverse=!playersortReverse;">{{ playerLabels[2] }}
 				    <span ng-show="playersortType == 'characters' && !playersortReverse" class="fa fa-caret-down"></span>
 				    <span ng-show="playersortType == 'characters' && playersortReverse" class="fa fa-caret-up"></span>
 					</a></th>
-					<th><a href="#" ng-click="playersortType = 'score'; playersortReverse=!playersortReverse;">Score
+					<th><a href="#" ng-click="playersortType = 'score'; playersortReverse=!playersortReverse;">{{ playerLabels[3] }}
 				    <span ng-show="playersortType == 'score' && !playersortReverse" class="fa fa-caret-down"></span>
 				    <span ng-show="playersortType == 'score' && playersortReverse" class="fa fa-caret-up"></span>
 					</a></th>
-					<th><a href="#" ng-click="playersortType = 'change'; playersortReverse=!playersortReverse;">Change
+					<th><a href="#" ng-click="playersortType = 'change'; playersortReverse=!playersortReverse;">{{ playerLabels[4] }}
+				    <span ng-show="playersortType == 'change' && !playersortReverse" class="fa fa-caret-down"></span>
+				    <span ng-show="playersortType == 'change' && playersortReverse" class="fa fa-caret-up"></span>
+					</a></th>
+				</thead>
+				<tbody>
+			<tr ng-repeat="x in players | filter:searchTerm | orderBy:playersortType:playersortReverse | limitTo:10">
+				<td>
+					<p> {{ x.tag }} </p>
+				</td>
+				<td>
+					<p> {{ x.rank }} </p>
+				</td>
+				<td>
+					<img class = "stocks" ng-repeat="item in x.characters | split" ng-src= "./images/{{ game }}-stocks/{{ replaceText(item) }}.png" />
+				</td>
+				<td>
+					<p> {{ x.score }} </p>
+				</td>
+				<td>
+					<p ng-class="{positivechange: x.change > 0, negativechange: x.change < 0}"> {{ x.change }} </p>
+				</td>
+			</tr>
+				</tbody>
+		</table>
+		</div>
+
+		<div class="col s12 m12 l4">
+			<h5>Recent Tournaments</h5>
+			<table class="centered">
+			<thead>
+				<tr>
+				<th><a href="#" ng-click="tourneysortType = 'slug'; tourneysortReverse=!tourneysortReverse;">Tournament
+			    <span ng-show="tourneysortType == 'name' && !tourneysortReverse" class="fa fa-caret-down"></span>
+			    <span ng-show="tourneysortType == 'name' && tourneysortReverse" class="fa fa-caret-up"></span>
+				</a></th>
+				<th><a href="#" ng-click="tourneysortType = 'entrants'; tourneysortReverse=!tourneysortReverse;">Entrants
+			    <span ng-show="tourneysortType == 'entrants' && !tourneysortReverse" class="fa fa-caret-down"></span>
+			    <span ng-show="tourneysortType == 'entrants' && tourneysortReverse" class="fa fa-caret-up"></span>
+				</a></th>
+				<th><a href="#" ng-click="tourneysortType = 'start'; tourneysortReverse=!tourneysortReverse;">Start Date
+			    <span ng-show="tourneysortType == 'start' && !tourneysortReverse" class="fa fa-caret-down"></span>
+			    <span ng-show="tourneysortType == 'start' && tourneysortReverse" class="fa fa-caret-up"></span>
+				</a></th>
+				<th><a href="#" ng-click="tourneysortType = 'end'; tourneysortReverse=!tourneysortReverse;">End Date
+			    <span ng-show="tourneysortType == 'end' && !tourneysortReverse" class="fa fa-caret-down"></span>
+			    <span ng-show="tourneysortType == 'end' && tourneysortReverse" class="fa fa-caret-up"></span>
+				</a></th>
+				</tr>
+			</thead>
+				<tbody>
+			<tr ng-repeat="x in tourneys |  orderBy:tourneysortType:tourneysortReverse | limitTo:4">
+				<td>
+					<a ng-href="http://smash.gg/{{ x.slug }}"> {{ x.name }} </a>
+				</td>
+				<td>
+					<p> {{ x.entrants }} </p>
+				</td>
+				<td>
+					<p> {{ x.start }} </p>
+				</td>
+				<td>
+					<p> {{ x.end }} </p>
+				</td>
+			</tr>
+				</tbody>
+		</table>
+		</div>
+		<div class="col s12 m12 l4">
+			<h5>Recent Notable Sets</h5>
+		<table class="striped bordered centered">
+			<tr>
+				<thead>
+					<th>Tournament</th>
+					<th>Player 1</th>
+					<th>Player 2</th>
+				</thead>
+				<tbody>
+			<tr ng-repeat="x in upsets | limitTo:5">
+				<td>
+					<p> {{ x.tourney }} </p>
+				</td>
+				<td>
+					<p> {{ x.p1 }} </p>
+				</td>
+				<td>
+					<p> {{ x.p2 }} </p>
+				</td>
+			</tr>
+				</tbody>
+		</table>
+		</div>
+
+		</div>
+		</div>
+
+		<div class="row animate-show-hide" ng-show="isSet(2)">
+		<div class="col s12 m12 l6 offset-l3">
+		<table class="striped bordered centered responsive-table">
+			<tr>
+				<thead>
+					<th><a href="#" ng-click="playersortType = 'tag'; playersortReverse=!playersortReverse;"> {{ playerLabels[0] }}
+				    <span ng-show="playersortType == 'tag' && !playersortReverse" class="fa fa-caret-down"></span>
+				    <span ng-show="playersortType == 'tag' && playersortReverse" class="fa fa-caret-up"></span>
+					</a></th>
+					<th><a href="#" ng-click="playersortType = 'rank'; playersortReverse=!playersortReverse;">{{ playerLabels[1] }}
+				    <span ng-show="playersortType == 'rank' && !playersortReverse" class="fa fa-caret-down"></span>
+				    <span ng-show="playersortType == 'rank' && playersortReverse" class="fa fa-caret-up"></span>
+					</a></th>
+					<th><a href="#" ng-click="playersortType = 'characters'; playersortReverse=!playersortReverse;">{{ playerLabels[2] }}
+				    <span ng-show="playersortType == 'characters' && !playersortReverse" class="fa fa-caret-down"></span>
+				    <span ng-show="playersortType == 'characters' && playersortReverse" class="fa fa-caret-up"></span>
+					</a></th>
+					<th><a href="#" ng-click="playersortType = 'score'; playersortReverse=!playersortReverse;">{{ playerLabels[3] }}
+				    <span ng-show="playersortType == 'score' && !playersortReverse" class="fa fa-caret-down"></span>
+				    <span ng-show="playersortType == 'score' && playersortReverse" class="fa fa-caret-up"></span>
+					</a></th>
+					<th><a href="#" ng-click="playersortType = 'change'; playersortReverse=!playersortReverse;">{{ playerLabels[4] }}
 				    <span ng-show="playersortType == 'change' && !playersortReverse" class="fa fa-caret-down"></span>
 				    <span ng-show="playersortType == 'change' && playersortReverse" class="fa fa-caret-up"></span>
 					</a></th>
@@ -119,13 +247,13 @@
 					<p> {{ x.rank }} </p>
 				</td>
 				<td>
-					<img class = "stocks" ng-repeat="item in x.characters | split" ng-src= "./smash-site-static/images/{{ game }}-stocks/{{ replaceText(item) }}.png" />
+					<img class = "stocks" ng-repeat="item in x.characters | split" ng-src= "./images/{{ game }}-stocks/{{ replaceText(item) }}.png" />
 				</td>
 				<td>
 					<p> {{ x.score }} </p>
 				</td>
 				<td>
-					<p> {{ x.change }} </p>
+					<p ng-class="{positivechange: x.change > 0, negativechange: x.change < 0}"> {{ x.change }} </p>
 				</td>
 			</tr>
 				</tbody>
