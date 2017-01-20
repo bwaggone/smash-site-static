@@ -33,7 +33,7 @@
 	<div class="navbar">
 		<nav class="red darken-4" role="navigation">
 			<div class="nav-wrapper container">
-				<a href="#" class="brand-logo"><img src="images/smash.png" style="vertical-align: middle; padding-top: 5px;" width="50px"></img></a>
+				<a href="#" class="brand-logo"><img src="smash-site-static/images/smash.png" style="vertical-align: middle; padding-top: 5px;" width="50px"></img></a>
 				<ul class = "right hide-on-med-and-down">
 					<li><a href="/">Players</a></li>
 					<li><a href="/projects">Tournaments</a></li>
@@ -91,7 +91,7 @@
 
 		<div ng-show="isSet(1)" class="animate-show-hide">
 		<div class="row">
-			<img class="header-img" ng-src="./images/{{game}}.png"/>
+			<img class="header-img" ng-src="./smash-site-static/images/{{game}}.png"/>
 		</div>
 		<input type="text" ng-model="searchTerm" placeholder="Enter a tag here" class="center">
 		<div class="row">
@@ -130,7 +130,7 @@
 					<p> {{ x.rank }} </p>
 				</td>
 				<td>
-					<img class = "stocks" ng-repeat="item in x.characters | split" ng-src= "./images/{{ game }}-stocks/{{ replaceText(item) }}.png" />
+					<img class = "stocks" ng-repeat="item in x.characters | split" ng-src= "./smash-site-static/images/{{ game }}-stocks/{{ replaceText(item) }}.png" />
 				</td>
 				<td>
 					<p> {{ x.score }} </p>
@@ -247,7 +247,7 @@
 					<p> {{ x.rank }} </p>
 				</td>
 				<td>
-					<img class = "stocks" ng-repeat="item in x.characters | split" ng-src= "./images/{{ game }}-stocks/{{ replaceText(item) }}.png" />
+					<img class = "stocks" ng-repeat="item in x.characters | split" ng-src= "./smash-site-static/images/{{ game }}-stocks/{{ replaceText(item) }}.png" />
 				</td>
 				<td>
 					<p> {{ x.score }} </p>
