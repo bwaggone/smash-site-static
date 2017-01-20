@@ -53,7 +53,7 @@ myApp.controller('myCtrl', function($scope, $route, $routeParams, $http, $locati
 	$scope.readCSV = function() {
 		// http get request to read CSV file content
 		console.log("Reading csv");
-		$http.get('.smash-site-static/csv/'+ $scope.game +'-rankings.csv').success($scope.readPlayers);
+		$http.get('./smash-site-static/csv/'+ $scope.game +'-rankings.csv').success($scope.readPlayers);
 		$http.get('./smash-site-static/data/'+ $scope.game +'/Singles/tournaments.csv').success($scope.readTournaments);
 		$http.get('./smash-site-static/data/'+ $scope.game +'/Singles/upsets.csv').success($scope.readUpsets);
 	};
