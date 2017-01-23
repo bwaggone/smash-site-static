@@ -1,1 +1,135 @@
-<p>Hello world</p>
+<head>
+
+	<!-- jQuery library -->
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+	<!-- Compiled and minified JavaScript -->
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.97.8/js/materialize.min.js"></script>
+	<!-- Materialize -->
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.97.8/css/materialize.min.css">
+
+	<!-- Custom Fonts -->
+	<link href="https://fonts.googleapis.com/css?family=Montserrat:400,700" rel="stylesheet" type="text/css">
+	<link href="https://fonts.googleapis.com/css?family=Lato:400,700,400italic,700italic" rel="stylesheet" type="text/css">
+
+
+
+	<!-- Angular -->
+	<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.5.3/angular.js"></script>
+	<script src="https://code.angularjs.org/1.5.3/angular-route.min.js"></script>
+	<script src="js/angular-ui-router.js"></script>
+
+	<!-- Custom js -->
+	<script src ="js/tournament.js"></script>
+
+	<!-- My custom CSS -->
+	<link rel="stylesheet" href="css/tournament.css">
+
+	<link href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.3/css/select2.min.css" rel="stylesheet" />
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.3/js/select2.min.js"></script>
+
+</head>
+<body>
+	<!-- NAVBAR -->
+	<base href="/"></base>
+	<div class="navbar">
+		<nav class="red darken-4" role="navigation">
+			<div class="nav-wrapper container">
+				<a href="#" class="brand-logo"><img src="images/smash.png" style="vertical-align: middle; padding-top: 5px;" width="50px"></img></a>
+				<ul class = "right hide-on-med-and-down">
+					<li><a href="/">Players</a></li>
+					<li><a href="/projects">Tournaments</a></li>
+					<li><a class='dropdown-button' hover="true" data-beloworigin="true" data-activates='game-dropdown'>Games</a></li>
+				</ul>
+
+				<ul id='game-dropdown' class='dropdown-content'>
+					<li><a class="droptext" href="game?type=64">64</a></li>
+					<li><a class="droptext" href="game?type=Melee">Melee</a></li>
+					<li><a class="droptext" href="game?type=Smash4">Smash 4</a></li>
+				</ul>
+
+				<ul class="side-nav" id= "slide-out">
+					<li>
+						<div class="userView">
+							<div class="background">
+								<img src="images/polygons.png" style = "max-height: 250px"></img>
+							</div>
+						</div>
+					</li>
+					<li><a href="#">Players</a></li>
+					<li><a href="#">Tournaments</a></li>
+					<li><a href="#">Games</a></li>
+				</ul>
+				<a class="button-collapse" data-activates="slide-out"><i class="material-icons">menu</i></a>
+
+			</div>
+		</nav>
+	</div>
+
+												        
+
+
+	<div ng-app="tourneyApp" ng-controller="tourneyCtrl">
+		<div class="row">
+			<div class="col l6 s12 m12">
+				<ul class="collapsible" data-collapsible="accordion">
+					<li ng-repeat="x in placements | orderBy:sortType:sortReverse | limitTo:sortAmount | filter:byRange('placement',minPlacement,maxPlacement) | filter: (!chars || '') && {characters:charSearch}">
+						<div class="collapsible-header">
+							<h5 class="valign-wrapper">
+
+								<img class = "place-img" ng-src="./images/Results/{{ x.placement }}.png" id="place{{x.placement}}" ng-if="x.placement < 8"/>
+								<span class="valign" ng-if="x.placement >8">{{ x.placement }}. </span>
+								<span class="valign">{{ capName(x.tag) }}</span>
+								<span><img class = "stocks" ng-repeat="item in x.characters | split" ng-src= "./images/Melee-stocks/{{ item }}.png" /></span>
+							</h5>
+						</div>
+						<div class="collapsible-body"><p>Lorem ipsum dolor sit amet.</p></div>
+					</li>
+				</ul>
+			</div>
+			<div class="col l4 offset-l7 s12 s12 filter-box">
+				<div class="card grey lighten-5">
+					<div class="card-content black-text">
+						<span class="card-title">Filter Information</span>
+						<p class="left">Use the following options to filter the results. For more detailed bracket information, see the appropriate smash.gg page.</p>
+						
+						<input type="text" ng-model="searchTerm" placeholder="Enter your search criteria" class="center">
+						<ul>
+							<li>
+								<input type="checkbox" id="top8" ng-click="filterTop8();"/>
+								<label for="top8">Top 8</label>
+							</li>
+							<li>
+								<input type="checkbox" id="between" ng-click="filterPlaces(lowerPlace, higherPlace);"/>
+								<label for="between">Between</label>
+								<input type="text" ng-model="minPlacement" placeholder="Place" class="card-text center">
+								<p class="card-text"> and </p>
+								<input type="text" ng-model="maxPlacement" placeholder="Place" class="card-text center">
+								<p class="card-text"> place. </p>
+							</li>
+							<li>
+								<input type="checkbox" id="character" ng-click="filterCharacter();"/>
+								<label for="character">Character Search</label>
+								<input type="text" ng-model="charSearch" placeholder="Character" class="card-text center">
+
+							</li>
+
+						</ul>
+
+						</div>
+					<div class="card-action">
+						<a href="#">This is a link</a>
+						<a href="#">This is a link</a>
+					</div>
+				</div>
+
+			</div>
+		</div>
+	</div>
+
+
+
+
+
+
+
+</body>

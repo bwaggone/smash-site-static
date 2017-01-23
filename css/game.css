@@ -4,11 +4,32 @@ padding:5px;
 }*/
 table {
 	border-collapse: collapse;
+	white-space: nowrap;
 	display: fixed;
 }
-.table-responsive thead {
-	display: table-header-group;
+
+tbody > tr {
+	-o-transition:.5s;
+	-ms-transition:.5s;
+	-moz-transition:.5s;
+	-webkit-transition:.5s;
+	transition:.5s;
 }
+
+tbody > tr:hover {
+	background-color: #7f0000 !important;
+	color: white;
+}
+
+a {
+	color:blue;
+	-o-transition:.5s;
+	-ms-transition:.5s;
+	-moz-transition:.5s;
+	-webkit-transition:.5s;
+	transition:.5s;
+}
+a:hover { color:red; }
 
 .droptext {
 	color: red !important;
@@ -25,11 +46,6 @@ table {
 }
 
 /* button recolor */
-.nav-pills > li.active > a, .btn-primary {
-	background-color: #6C6C6C !important;
-	border-color: #6C6C6C !important;
-	border-radius: 25px; 
-}
 
 .animate-show-hide.ng-hide {
 	opacity: 0;
@@ -71,6 +87,13 @@ input[type=text]:focus {
 	width: 75%;
 }
 
+input[type=text].autocomplete {
+	margin-left: 0;
+	width: 75%;
+}
+input[type=text]:focus.autocomplete {
+	width: 100%;
+}
 
 #nav{
 	z-index: 10;

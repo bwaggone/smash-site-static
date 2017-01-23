@@ -1,0 +1,26 @@
+.place-img#place1 {
+	max-height: 100px;
+}
+
+.place-img#place2, .place-img#place3 {
+	max-height: 75px;
+}
+
+.place-img{
+	max-height: 50px;
+}
+
+.filter-box {
+
+	position:fixed;
+}
+
+.card-text {
+	display: inline;
+	width: 10% !important;
+	margin-bottom: 0px !important;
+}
+
+h5 span {
+	padding-left: 20px;
+}
